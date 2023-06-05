@@ -30,6 +30,51 @@
     justify-content: center;
 }
 
+.home{
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+}
+
+.head{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding-top: 18px;
+    position: relative;
+    background-color: white;
+    margin-bottom: 28px;
+}
+
+.logo{
+    font-size: 28px;
+    font-weight: 500;
+    padding-left: 12px;
+    display: flex;
+}
+
+.search{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+}
+
+.textSearch{
+    width: 40%;
+}
+
+.profile{
+    padding-right: 12px;
+}
+
+.bxs-user{
+    color: grey;
+    font-size: 32px;
+    cursor: pointer;
+}
+
 .registerContainer{
     background-color: white;
     width: 60%;
@@ -98,7 +143,137 @@ label{
     cursor: pointer;
 }
 
-.loginBtn:hover{
+.postBtn{
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background-color: white;
+    border: 2px solid rgb(21, 81, 194);
+    color: rgb(21, 81, 194);
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.loginBtn:hover, .postBtn:hover{
     background-color: rgb(21, 81, 194);
     color: white;
+}
+
+.homeContent{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.homeComponent{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.createPost, .sortPost{
+    width: 60%;
+    padding: 12px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.feed{
+    width: 60%;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sortIcon{
+    gap: 8px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.bx-signal-3, .bxs-certification, .bx-time{
+    font-size: 22px;
+}
+
+.bx-signal-3:hover, .bxs-certification:hover, .bx-time:hover{
+    color:  rgb(21, 81, 194);
+}
+
+.post{
+    padding: 12px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.posts{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.postContainer{
+    display: flex;
+    gap: 14px;
+}
+
+.postContent{
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+}
+
+.vote{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-direction: column;
+}
+
+.postInfo{
+    display: flex;
+    gap: 14px;
+    font-size: 10px;
+    color: gray;
+}
+
+.postText{
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.postImg{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 600px;
+}
+
+.postImage{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.commentBtn{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    gap: 10px;
+    color: gray;
+    cursor: pointer;
 }
