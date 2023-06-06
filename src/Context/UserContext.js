@@ -8,9 +8,9 @@ export const UserProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState({});
 
     useEffect(() => {
-        const sub = onAuthStateChanged((auth,(user) => {
+        const sub = onAuthStateChanged(auth,(user) => {
             setCurrentUser(user);
-        }));
+        });
 
         return () => {
             sub();
@@ -24,4 +24,4 @@ export const UserProvider = ({children}) => {
     );
 };
 
-export default useContext
+export default UserContext;

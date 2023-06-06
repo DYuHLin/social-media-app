@@ -281,3 +281,42 @@ label{
     color: gray;
     cursor: pointer;
 }
+
+.options{
+    position: absolute;
+    background-color: white;
+    padding: 12px;
+    border-radius: 7px;
+    right: 20px;
+}
+
+.optionUser{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+ul{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+li{
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.bx-log-in, .bxs-edit{
+    font-size: 22px;
+}
+
+.hidden{
+    visibility: hidden;
+}
+
+li:hover{
+    background-color: rgb(224, 221, 221);
+}
