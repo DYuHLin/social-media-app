@@ -231,6 +231,7 @@ label{
 
 .postContent{
     display: flex;
+    width: 90%;
     gap: 12px;
     flex-direction: column;
 }
@@ -251,6 +252,9 @@ label{
 
 .postText{
     font-size: 28px;
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
     font-weight: 600;
     margin-bottom: 12px;
 }

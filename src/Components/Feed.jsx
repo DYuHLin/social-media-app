@@ -23,7 +23,7 @@ const Feed = () => {
                     </div>
                 </div>
                 <div className="commentBtn">
-                    <i class='bx bxs-comment'></i>
+                    <i className='bx bxs-comment'></i>
                     <div className="commentHeading">7 Comments</div>
                 </div>
             </div>
