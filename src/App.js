@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Home from './Pages/Home';
 import Register from './Pages/Register';
 import Login from './Pages/Login';
+import Post from './Pages/Post';
 import "./style/style.css";
 import UserContext from './Context/UserContext';
 
@@ -27,6 +28,7 @@ function App() {
               <Route path='/' element = {<ProtectedRoute><Home /></ProtectedRoute>}/>
               <Route path='/register' element = {<Register />}/>
               <Route path='/login' element = {<Login />}/>
+              <Route path='/post' element = {<Post />}/>
             </Routes>
           </div>
       </div>

@@ -69,6 +69,12 @@
     padding-right: 12px;
 }
 
+.userImg{
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+
 .bxs-user{
     color: grey;
     font-size: 32px;
@@ -160,14 +166,14 @@ label{
     color: white;
 }
 
-.homeContent{
+.homeContent, .postPage{
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.homeComponent{
+.homeComponent, .postComponent, .postContainer{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -175,7 +181,7 @@ label{
     width: 100%;
 }
 
-.createPost, .sortPost{
+.createPost, .sortPost, .createPosts{
     width: 60%;
     padding: 12px;
     background-color: white;
@@ -183,6 +189,10 @@ label{
     align-items: center;
     gap: 14px;
     margin-bottom: 18px;
+}
+
+.createPosts{
+    flex-direction: column;
 }
 
 .feed{
@@ -319,4 +329,54 @@ li{
 
 li:hover{
     background-color: rgb(224, 221, 221);
+}
+
+.switchTypes{
+    display: flex;
+    gap: 22px;
+    padding: 22px;
+}
+
+.postLink{
+    font-size: 22px;
+    font-size: 500;
+    cursor: pointer;
+}
+
+.Posttitle{
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.active{
+    color: rgb(21, 81, 194);
+    text-decoration: underline;
+}
+
+.postInputs{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+}
+
+.postText, .postTextarea{
+    width: 100%;
+    border-radius: 7px;
+    font-size: 24px;
+}
+
+.postText{
+    background-color: white;
+    border: 1px solid black;
+    padding: initial;
+}
+
+.postSubmit{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
 }

@@ -1,8 +1,10 @@
 import { signOut } from 'firebase/auth';
-import React from 'react'
+import React, { useContext } from 'react'
 import { auth } from '../Firebase';
+import UserContext from '../Context/UserContext';
 
 const Nav = () => {
+  const {currentUser} = useContext(UserContext);
 
   const optionMenu = () => {
     const options = document.getElementById("profileList");
@@ -21,11 +23,11 @@ const Nav = () => {
             <input className='textSearch' type="text" autoComplete='off' placeholder='Search'/>
         </div>
 
-        <div className="profile">
-        <i onClick={optionMenu} className='bx bxs-user'></i>
+        <div className="profile" onClick={optionMenu}>
+        <img className='userImg' src={currentUser.photoURL} alt="profile" />
         <div id='profileList' className="profileList hidden">
           <ul className='options'>
-            <li><div className="optionUser">User1</div></li>
+            <li><div className="optionUser">{currentUser.displayName}</div></li>
             <li><i className='bx bxs-edit'></i><div className="optionText">Create Post</div></li>
             <li onClick={() => {signOut(auth)}}><i className='bx bx-log-in'></i><div className="optionText">Logout</div></li>
           </ul>

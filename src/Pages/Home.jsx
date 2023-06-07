@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Nav from '../Components/Nav'
 import Feed from '../Components/Feed'
+import UserContext from '../Context/UserContext';
 
 const Home = () => {
+  const {currentUser} = useContext(UserContext);
+  
   return (
     <div className='home'>
       
@@ -10,7 +13,7 @@ const Home = () => {
       <Nav />
       <div className="homeComponent">
         <div className="createPost">
-          <i className='bx bxs-user'></i>
+          <img className='userImg' src={currentUser.photoURL} alt="profile" />
           <button className='postBtn'>Create Post</button>
           </div>
 
