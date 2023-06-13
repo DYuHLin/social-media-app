@@ -36,7 +36,6 @@ const Home = () => {
 
           <div className="feed">
             <Feed />
-            <Feed />
           </div>
       </div>
         

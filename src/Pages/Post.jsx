@@ -1,10 +1,9 @@
 import React, { useContext, useState } from 'react'
 import Nav from '../Components/Nav'
 import { useNavigate } from 'react-router-dom';
-import { arrayUnion, doc, getDoc, getDocs, serverTimestamp, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
-import { db, storage } from '../Firebase';
+import { arrayUnion, doc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
+import { db } from '../Firebase';
 import UserContext from '../Context/UserContext';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { v4 as uuid } from 'uuid';
 
 const Post = () => {
@@ -65,7 +64,8 @@ const Post = () => {
         title: heading,
         postDesc: description,
         postImg: image,
-        links: link
+        links: link,
+        date: serverTimestamp()
       });
 
       await updateDoc(doc(db, "userPosts", currentUser.uid), {
@@ -80,8 +80,15 @@ const Post = () => {
           [id + ".date"]: serverTimestamp(),
         });
     } catch(err){
-      setErr(err);
+      setErr(true);
     };
+
+    setHeading("");
+    setDescription("");
+    setImage("");
+    setLink("");
+
+    navigate("/");
   };
 
   return (
