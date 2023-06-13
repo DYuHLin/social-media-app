@@ -173,7 +173,7 @@ label{
     align-items: center;
 }
 
-.homeComponent, .postComponent, .postContainer{
+.homeComponent, .postComponent, .posterContainer{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -324,7 +324,7 @@ li{
 }
 
 .hidden{
-    visibility: hidden;
+    display: none;
 }
 
 li:hover{
@@ -362,13 +362,13 @@ li:hover{
     gap: 18px;
 }
 
-.postText, .postTextarea{
+.posterText, .postTextarea{
     width: 100%;
     border-radius: 7px;
     font-size: 24px;
 }
 
-.postText{
+.posterText{
     background-color: white;
     border: 1px solid black;
     padding: initial;
