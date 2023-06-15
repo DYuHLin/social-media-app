@@ -56,15 +56,17 @@ const Post = () => {
     const id = currentUser.uid + uuid();
     try{
       await setDoc(doc(db, "comments", id), {comments: []});
-      await setDoc(doc(db, "likes", id), {likes: []});
 
       await setDoc(doc(db, "posts", id), {
+        idPost: id,
         postUid: currentUser.uid,
         displayName: currentUser.displayName,
         title: heading,
         postDesc: description,
         postImg: image,
         links: link,
+        likes: [],
+        likeCount: 0,
         date: serverTimestamp()
       });
 

@@ -380,3 +380,15 @@ li:hover{
     justify-content: flex-end;
     gap: 24px;
 }
+
+.like{
+    color: orange;
+}
+
+.dislike{
+    color: blue;
+}
+
+.bx-up-arrow-alt, .bx-down-arrow-alt{
+    cursor: pointer;
+}
