@@ -2,18 +2,20 @@ import { arrayRemove, arrayUnion, collection, doc, getDoc, onSnapshot, updateDoc
 import React, { useContext, useEffect, useState } from 'react'
 import { db } from '../Firebase';
 import UserContext from '../Context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const Feed = () => {
     const [posts, setPosts] = useState([{}]);
     const colRef = collection(db, 'posts');
     const {currentUser} = useContext(UserContext);
+    const navigate = useNavigate();
 
-    const like = async (id, userId) => {       
+    const like = async (id, userId) => {           
         try{
             const docu = await getDoc(doc(db, "posts", id));
             console.log(docu.data().likes);
             let obj = docu.data().likes.find((x) => x.useId === userId);
-            if(!docu.data().likes.find((x) => x.useId === userId)){
+            if(!docu.data().likes.find((x) => x.useId === userId)){;
                 return updateDoc(doc(db, 'posts', id), {
                     likes: arrayUnion({
                         useId: currentUser.uid,
@@ -88,6 +90,11 @@ const Feed = () => {
            };           
     };
 
+    // const highlights = () => {
+    //     const likeBtn = document.getElementById("like");     
+    //     const dislikeBtn = document.getElementById("dislike");   
+    // };
+
     useEffect(() => {
         onSnapshot(colRef, (snapshot) => {
             let post = [];
@@ -105,11 +112,11 @@ const Feed = () => {
                 <div className='post' key={obj.idPost}>
                     <div className="postContainer">
                         <div className="vote">
-                            <i onClick={() => like(obj.idPost, currentUser.uid)} className='bx bx-up-arrow-alt'></i>
+                            <i id='like' onClick={() => like(obj.idPost, currentUser.uid)} className='bx bx-up-arrow-alt'></i>
                             <span>{obj.likeCount}</span>
-                            <i onClick={() => dislike(obj.idPost, currentUser.uid)} className='bx bx-down-arrow-alt' ></i>   
+                            <i id='dislike' onClick={() => dislike(obj.idPost, currentUser.uid)} className='bx bx-down-arrow-alt' ></i>   
                         </div>
-                        <div className="postContent">
+                        <div className="postContent" onClick={() => navigate(`/${obj.idPost}`)}>
                             <div className="postInfo">
                                 <div className="poster">Posted by {obj.displayName}</div>
                                 <div className="postedate">A year ago</div>

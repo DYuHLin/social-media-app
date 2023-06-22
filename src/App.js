@@ -6,6 +6,7 @@ import Login from './Pages/Login';
 import Post from './Pages/Post';
 import "./style/style.css";
 import UserContext from './Context/UserContext';
+import PostPage from './Pages/PostPage';
 
 function App() {
   const {currentUser} = useContext(UserContext);
@@ -29,6 +30,7 @@ function App() {
               <Route path='/register' element = {<Register />}/>
               <Route path='/login' element = {<Login />}/>
               <Route path='/post' element = {<Post />}/>
+              <Route path="/:id" element = {<PostPage />} />
             </Routes>
           </div>
       </div>
