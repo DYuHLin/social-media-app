@@ -46,7 +46,7 @@ console.log(post)
                                 <i className='bx bxs-comment'></i>
                                 <div className="commentHeading">7 Comments</div>
                             </div>
-                            <Comments />
+                            <Comments collection = {id}/>
                             <CommentFeed />
                         </div>
                     </div>
