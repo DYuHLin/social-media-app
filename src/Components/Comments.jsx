@@ -1,31 +1,33 @@
 import React, { useContext, useState } from 'react'
 import UserContext from '../Context/UserContext';
 import { v4 as uuid } from 'uuid';
-import { arrayUnion, doc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
+import { Timestamp, arrayUnion, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db } from '../Firebase';
+import { useParams } from 'react-router-dom';
 
-const Comments = (collection) => {
+const Comments = () => {
+const {id} = useParams();
+const stringId = id.toString();
 const {currentUser} = useContext(UserContext);
 const [comment, setComment] = useState("");
 
-const sendComment = async (id) => {
-  const newId = currentUser.uid + uuid();
-    try{
-      await updateDoc(doc(db, 'comments', id), {
+const sendComment = async (postId) => {
+ 
+      await updateDoc(doc(db, 'comments', postId), {
         comments: arrayUnion({
-            commentId:newId,
+            commentId: uuid(),
             commenter: currentUser.uid,
             displayName: currentUser.displayName,
-            replyTo: id,
+            replyTo: postId,
             comment: comment,
             replies: [],
-            date: serverTimestamp()
+            likes: [],
+            likeCount: 0,
+            date: Timestamp.now()
         })
     });
-    } catch(err){
 
-    };
-    setComment("");
+     setComment("");
 };
 
   return (
@@ -36,7 +38,7 @@ const sendComment = async (id) => {
             <textarea value={comment} onChange={(e) => {setComment(e.target.value)}} className='postTextarea' name="" id="commentBox" cols="30" rows="5"></textarea>
         </div>
         <div className="postSubmit">
-            <button onClick={()=> {sendComment(collection)}} className='registerBtn'>Post</button>
+            <button onClick={()=> sendComment(stringId)} className='registerBtn'>Post</button>
         </div>
     </div>
   )

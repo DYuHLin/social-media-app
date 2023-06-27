@@ -21,7 +21,7 @@ console.log(post)
         <div className='singlePage'>
             <Nav />
             <div className="feed">
-            <div className='post'>
+            <div className='post1'>
                     <div className="postContainer">
                         <div className="vote">
                             <i id='like' className='bx bx-up-arrow-alt'></i>
@@ -46,7 +46,7 @@ console.log(post)
                                 <i className='bx bxs-comment'></i>
                                 <div className="commentHeading">7 Comments</div>
                             </div>
-                            <Comments collection = {id}/>
+                            <Comments />
                             <CommentFeed />
                         </div>
                     </div>

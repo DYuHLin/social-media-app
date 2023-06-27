@@ -228,6 +228,14 @@ label{
     cursor: pointer;
 }
 
+.post1{
+    padding: 12px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
 .posts{
     width: 100%;
     display: flex;
@@ -402,7 +410,7 @@ li:hover{
 
 .container{
     width: min(90%, 1140px);
-    margin: 3rem auto;
+    margin: 0.5rem auto;
 }
 
 .comment__container{
@@ -440,11 +448,17 @@ li:hover{
     display: flex;
     font-size: .85rem;
     opacity: 0.6;
-    gap: 30px;
+    gap: 20px;
     justify-content: flex-end;
     align-items: center;
 }
 
 .show-replies{
     cursor: pointer;
+}
+
+.commenter{
+    font-size: 16px;
+    color: grey;
+    margin-bottom: 14px;
 }
