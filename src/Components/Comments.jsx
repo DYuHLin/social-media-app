@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import UserContext from '../Context/UserContext';
 import { v4 as uuid } from 'uuid';
-import { Timestamp, arrayUnion, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { Timestamp, arrayUnion, doc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../Firebase';
 import { useParams } from 'react-router-dom';
 
@@ -12,10 +12,13 @@ const {currentUser} = useContext(UserContext);
 const [comment, setComment] = useState("");
 
 const sendComment = async (postId) => {
- 
+  const ids = currentUser.uid + uuid();
+
+      await setDoc(doc(db, "replies", ids),{});
+
       await updateDoc(doc(db, 'comments', postId), {
-        comments: arrayUnion({
-            commentId: uuid(),
+            [ids]: {
+            commentId: ids,
             commenter: currentUser.uid,
             displayName: currentUser.displayName,
             replyTo: postId,
@@ -23,9 +26,9 @@ const sendComment = async (postId) => {
             replies: [],
             likes: [],
             likeCount: 0,
-            date: Timestamp.now()
-        })
-    });
+            date: Timestamp.now()}
+        },
+      );
 
      setComment("");
 };

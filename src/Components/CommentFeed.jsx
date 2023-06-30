@@ -1,11 +1,13 @@
-import { doc, onSnapshot } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react'
+import { arrayRemove, arrayUnion, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
+import React, { useContext, useEffect, useState } from 'react'
 import { db } from '../Firebase';
 import { useParams } from 'react-router-dom';
+import UserContext from '../Context/UserContext';
 
 const CommentFeed = () => {
     const {id} = useParams();
     const [comments, setComments] = useState([{}]);
+    const {currentUser} = useContext(UserContext);
     const showReplies = () => {
         const replyBtn = document.querySelectorAll('.show-replies');
     
@@ -14,37 +16,184 @@ const CommentFeed = () => {
         // }));
     };
 
-    useEffect(() => {
-        const unSub = onSnapshot(doc(db,"comments", id), (doc)=>{
-            doc.exists() && setComments(doc.data().comments)
-          })
+    const like = async (comId) => {
+        let commentId = comId;
+        try{
+             const docu = await getDoc(doc(db, "comments", id));
+             console.log(docu.data()[comId]);
+             let obj = docu.data()[comId].likes.find((x) => x.useId === currentUser.uid);
 
-          return() => {
-            unSub();
-          };
+             if(!obj){
+                 await updateDoc(doc(db, "comments", id), {
+                    [commentId]:{
+                        commentId: docu.data()[comId].commentId,
+                        commenter: docu.data()[comId].commenter,
+                        displayName: docu.data()[comId].displayName,
+                        replyTo: docu.data()[comId].replyTo,
+                        comment: docu.data()[comId].comment,
+                        likes: arrayUnion({
+                            useId: currentUser.uid,
+                            displayName: currentUser.displayName,
+                            likes: "yes"
+                        }),
+                        likeCount: docu.data()[comId].likeCount +1,
+                        date: docu.data()[comId].date
+                    }
+                 });
+             } else if(obj && obj.likes === "no"){
+                await updateDoc(doc(db, 'comments', id), {
+                    [commentId]:{
+                        commentId: docu.data()[comId].commentId,
+                        commenter: docu.data()[comId].commenter,
+                        displayName: docu.data()[comId].displayName,
+                        replyTo: docu.data()[comId].replyTo,
+                        comment: docu.data()[comId].comment,
+                        likes: arrayRemove(obj),
+                        likeCount: docu.data()[comId].likeCount,
+                        date: docu.data()[comId].date
+                    }                   
+                });
+
+                 await updateDoc(doc(db, 'comments', id), {
+                    [commentId]:{
+                        commentId: docu.data()[comId].commentId,
+                        commenter: docu.data()[comId].commenter,
+                        displayName: docu.data()[comId].displayName,
+                        replyTo: docu.data()[comId].replyTo,
+                        comment: docu.data()[comId].comment,
+                        likes: arrayUnion({
+                            useId: currentUser.uid,
+                            displayName: currentUser.displayName,
+                            likes: "yes"
+                        }),
+                        likeCount: docu.data()[comId].likeCount +2,
+                        date: docu.data()[comId].date
+                    }                   
+                });
+             } else if(obj && obj.likes === "yes") {
+                return updateDoc(doc(db, 'comments', id), {
+                    [commentId]:{
+                        commentId: docu.data()[comId].commentId,
+                        commenter: docu.data()[comId].commenter,
+                        displayName: docu.data()[comId].displayName,
+                        replyTo: docu.data()[comId].replyTo,
+                        comment: docu.data()[comId].comment,
+                        likes: arrayRemove(obj),
+                        likeCount: docu.data()[comId].likeCount -1,
+                        date: docu.data()[comId].date
+                    }                  
+                });
+             }
+        }catch(err){
+
+        };
+    };
+
+    const dislike = async (comId) => {
+        let commentId = comId;
+        try{
+             const docu = await getDoc(doc(db, "comments", id));
+             console.log(docu.data()[comId]);
+             let obj = docu.data()[comId].likes.find((x) => x.useId === currentUser.uid);
+             
+             if(!obj){
+                 await updateDoc(doc(db, "comments", id), {
+                    [commentId]:{
+                        commentId: docu.data()[comId].commentId,
+                        commenter: docu.data()[comId].commenter,
+                        displayName: docu.data()[comId].displayName,
+                        replyTo: docu.data()[comId].replyTo,
+                        comment: docu.data()[comId].comment,
+                        likes: arrayUnion({
+                            useId: currentUser.uid,
+                            displayName: currentUser.displayName,
+                            likes: "no"
+                        }),
+                        likeCount: docu.data()[comId].likeCount -1,
+                        date: docu.data()[comId].date
+                    }
+                 });
+             } else if(obj && obj.likes === "yes"){
+                await updateDoc(doc(db, 'comments', id), {
+                    [commentId]:{
+                        commentId: docu.data()[comId].commentId,
+                        commenter: docu.data()[comId].commenter,
+                        displayName: docu.data()[comId].displayName,
+                        replyTo: docu.data()[comId].replyTo,
+                        comment: docu.data()[comId].comment,
+                        likes: arrayRemove(obj),
+                        likeCount: docu.data()[comId].likeCount,
+                        date: docu.data()[comId].date
+                    }                   
+                });
+
+                 await updateDoc(doc(db, 'comments', id), {
+                    [commentId]:{
+                        commentId: docu.data()[comId].commentId,
+                        commenter: docu.data()[comId].commenter,
+                        displayName: docu.data()[comId].displayName,
+                        replyTo: docu.data()[comId].replyTo,
+                        comment: docu.data()[comId].comment,
+                        likes: arrayUnion({
+                            useId: currentUser.uid,
+                            displayName: currentUser.displayName,
+                            likes: "no"
+                        }),
+                        likeCount: docu.data()[comId].likeCount -2,
+                        date: docu.data()[comId].date
+                    }                   
+                });
+             } else if(obj && obj.likes === "no") {
+                return updateDoc(doc(db, 'comments', id), {
+                    [commentId]:{
+                        commentId: docu.data()[comId].commentId,
+                        commenter: docu.data()[comId].commenter,
+                        displayName: docu.data()[comId].displayName,
+                        replyTo: docu.data()[comId].replyTo,
+                        comment: docu.data()[comId].comment,
+                        likes: arrayRemove(obj),
+                        likeCount: docu.data()[comId].likeCount +1,
+                        date: docu.data()[comId].date
+                    }                  
+                });
+             }
+        }catch(err){
+
+        };
+    };
+
+    useEffect(() => {
+         const unSub = onSnapshot(doc(db,"comments", id), (doc)=>{
+
+             doc.exists() && setComments(Object.keys(doc.data()).map((key) => doc.data()[key]));
+           })
+
+           return() => {
+             unSub();
+           };
     },[]);
 
   return (   
     <>  
-        {comments.map((obj) => {
-            return ( 
-                <div className='container'>
+          {comments.sort((a, b) => {return b.date - a.date}).map((obj) => {
+            return (  
+                <div className='container' key={obj.commentId}>
                     <div className="comment__container">
                         <div className="comment__card">
                             <div className='commenter'>{obj.displayName}</div>
                             <p>{obj.comment}</p>
                             <div className="comment__footer">
-                                <div><i id='like' className='bx bx-up-arrow-alt'></i></div>
+                                <div><i onClick={() => like(obj.commentId)} id='like' className='bx bx-up-arrow-alt'></i></div>
                                 <div>{obj.likeCount}</div>
-                                <div><i id='dislike' className='bx bx-down-arrow-alt' ></i></div>
+                                <div><i onClick={() => dislike(obj.commentId)} id='dislike' className='bx bx-down-arrow-alt' ></i></div>
                                 <div className='show-replies'>Replies</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            )
+             )
         })
-    }
+    }  
              
         {/* <div className="comment__container" id='first-comment'>
             <div className="comment__card">
