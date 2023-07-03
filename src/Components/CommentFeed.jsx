@@ -1,13 +1,15 @@
-import { arrayRemove, arrayUnion, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { Timestamp, arrayRemove, arrayUnion, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import React, { useContext, useEffect, useState } from 'react'
 import { db } from '../Firebase';
 import { useParams } from 'react-router-dom';
 import UserContext from '../Context/UserContext';
+import { v4 as uuid } from 'uuid';
 
 const CommentFeed = () => {
     const {id} = useParams();
     const [comments, setComments] = useState([{}]);
     const {currentUser} = useContext(UserContext);
+    const [replies, setReplies] = useState("");
     const showReplies = () => {
         const replyBtn = document.querySelectorAll('.show-replies');
     
@@ -162,6 +164,35 @@ const CommentFeed = () => {
         };
     };
 
+    const showReplyBox = () => {
+        const replyBox = document.getElementById("replyBox");
+        if(replyBox.classList.contains("hidden")){
+            replyBox.classList.remove("hidden");
+        } else{
+            replyBox.classList.add("hidden");
+        };
+    };
+
+    const reply = async (replyId) => {
+        const replyBox = document.getElementById("replyBox");
+        const ids = currentUser.uid + uuid();
+
+        await updateDoc(doc(db, 'replies', replyId), {
+                [ids]: {
+                commentId: ids,
+                commenter: currentUser.uid,
+                displayName: currentUser.displayName,
+                replyTo: replyId,
+                comment: replies,
+                likes: [],
+                likeCount: 0,
+                date: Timestamp.now()}
+            },
+        )
+        replyBox.classList.add("hidden");
+        setReplies("");
+    };
+
     useEffect(() => {
          const unSub = onSnapshot(doc(db,"comments", id), (doc)=>{
 
@@ -186,8 +217,20 @@ const CommentFeed = () => {
                                 <div><i onClick={() => like(obj.commentId)} id='like' className='bx bx-up-arrow-alt'></i></div>
                                 <div>{obj.likeCount}</div>
                                 <div><i onClick={() => dislike(obj.commentId)} id='dislike' className='bx bx-down-arrow-alt' ></i></div>
-                                <div className='show-replies'>Replies</div>
+                                <div onClick={showReplyBox} className='show-replies'>Reply</div>
+                                <div className='show-replies'>Show Replies</div>
+                                
                             </div>
+                        </div>
+                        <div id='replyBox' className='commentSection hidden'>
+                            <div className="commenter">Comment as {currentUser.displayName}</div>
+
+                                <div className="commentBox">
+                                    <textarea value={replies} onChange={(e) => setReplies(e.target.value)} className='postTextarea' name="" id="commentBox" cols="30" rows="5"></textarea>
+                                </div>
+                                <div className="postSubmit">
+                                    <button onClick={() => reply(obj.commentId)} className='registerBtn'>Post</button>
+                                </div>
                         </div>
                     </div>
                 </div>
