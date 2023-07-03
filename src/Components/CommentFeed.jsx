@@ -10,12 +10,13 @@ const CommentFeed = () => {
     const [comments, setComments] = useState([{}]);
     const {currentUser} = useContext(UserContext);
     const [replies, setReplies] = useState("");
-    const showReplies = () => {
-        const replyBtn = document.querySelectorAll('.show-replies');
-    
-        // replyBtn.forEach(btn => btn.addEventListener('click', (e) => {
-    
-        // }));
+    const [showReplies, setShowReplies] = useState();
+
+    const showReply = (replyId) => {
+        onSnapshot(doc(db,"replies", replyId), (doc)=>{
+            doc.exists() && setShowReplies(Object.keys(doc.data()).map((key) => doc.data()[key]));
+            console.log(showReplies);
+        });
     };
 
     const like = async (comId) => {
@@ -218,10 +219,28 @@ const CommentFeed = () => {
                                 <div>{obj.likeCount}</div>
                                 <div><i onClick={() => dislike(obj.commentId)} id='dislike' className='bx bx-down-arrow-alt' ></i></div>
                                 <div onClick={showReplyBox} className='show-replies'>Reply</div>
-                                <div className='show-replies'>Show Replies</div>
+                                <div onClick={() => showReply(obj.commentId)} className='show-replies'>Show Replies</div>
                                 
-                            </div>
+                            </div>                          
                         </div>
+                        {showReplies && showReplies.sort((a, b) => {return b.date - a.date}).map((rep) => {
+                            return (
+                                <div className="comment__container">
+                                    <div className="comment__card">
+                                        <div className='commenter'>{rep.displayName}</div>
+                                        <p>{rep.comment}</p>
+                                        <div className="comment__footer">
+                                            <div><i onClick={() => like(obj.commentId)} id='like' className='bx bx-up-arrow-alt'></i></div>
+                                            <div>{rep.likeCount}</div>
+                                            <div><i onClick={() => dislike(obj.commentId)} id='dislike' className='bx bx-down-arrow-alt' ></i></div>
+                                            <div className='show-replies'>Show Replies</div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })
+                        }
                         <div id='replyBox' className='commentSection hidden'>
                             <div className="commenter">Comment as {currentUser.displayName}</div>
 
