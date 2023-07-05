@@ -16,6 +16,15 @@ const CommentFeed = () => {
          onSnapshot(doc(db,"replies", replyId), (doc)=>{
              doc.exists() && setShowReplies(Object.keys(doc.data()).map((key) => doc.data()[key]));
              console.log(showReplies);
+
+             const commentBox = document.querySelectorAll('.comment__container');
+             commentBox.forEach((btn) => {
+                if(btn.classList.contains("hidden") && btn.classList.contains(replyId)){
+                    btn.classList.remove("hidden");
+                } else if(!btn.classList.contains("hidden") && btn.classList.contains(replyId)){
+                    btn.classList.add("hidden");
+                };
+             });
          });
     };
 
@@ -213,7 +222,7 @@ const CommentFeed = () => {
     <>  
           {comments.sort((a, b) => {return b.date - a.date}).map((obj) => {
             return (  
-                <div className='container' key={obj.commentId} container-id ={obj.commentId}>
+                <div className={`container ${obj.commentId}`} key={obj.commentId}>
                     <div className="comment__container" id={obj.commentId}>
                         <div className="comment__card">
                             <div className='commenter'>{obj.displayName}</div>
@@ -229,7 +238,7 @@ const CommentFeed = () => {
                         </div>
                         {showReplies && showReplies.sort((a, b) => {return b.date - a.date}).map((rep) => {
                             return (
-                                <div className="comment__container hidden" dataset={obj.commentId} id='first-reply'>
+                                <div className={`comment__container hidden ${obj.commentId}`} id='first-reply'>
                                     <div className="comment__card">
                                         <div className='commenter'>{rep.displayName}</div>
                                         <p>{rep.comment}</p>
