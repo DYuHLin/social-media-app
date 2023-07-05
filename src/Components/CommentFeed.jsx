@@ -12,11 +12,11 @@ const CommentFeed = () => {
     const [replies, setReplies] = useState("");
     const [showReplies, setShowReplies] = useState();
 
-    const showReply = (replyId) => {
-        onSnapshot(doc(db,"replies", replyId), (doc)=>{
-            doc.exists() && setShowReplies(Object.keys(doc.data()).map((key) => doc.data()[key]));
-            console.log(showReplies);
-        });
+    const showReply = (replyId) => (e) => {   
+         onSnapshot(doc(db,"replies", replyId), (doc)=>{
+             doc.exists() && setShowReplies(Object.keys(doc.data()).map((key) => doc.data()[key]));
+             console.log(showReplies);
+         });
     };
 
     const like = async (comId) => {
@@ -165,13 +165,17 @@ const CommentFeed = () => {
         };
     };
 
-    const showReplyBox = () => {
-        const replyBox = document.getElementById("replyBox");
-        if(replyBox.classList.contains("hidden")){
-            replyBox.classList.remove("hidden");
-        } else{
-            replyBox.classList.add("hidden");
-        };
+    const showReplyBox = (replyId) => {
+        let remove = replyId;
+        const replyBox = document.querySelectorAll(".commentSection");
+        replyBox.forEach((btn) => {
+            console.log(remove)
+         if(btn.classList.contains("hidden") && btn.classList.contains(remove)){
+             btn.classList.remove("hidden");
+         } else if(!btn.classList.contains("hidden") && btn.classList.contains(remove)){
+             btn.classList.add("hidden");
+         };
+        });     
     };
 
     const reply = async (replyId) => {
@@ -209,8 +213,8 @@ const CommentFeed = () => {
     <>  
           {comments.sort((a, b) => {return b.date - a.date}).map((obj) => {
             return (  
-                <div className='container' key={obj.commentId}>
-                    <div className="comment__container">
+                <div className='container' key={obj.commentId} container-id ={obj.commentId}>
+                    <div className="comment__container" id={obj.commentId}>
                         <div className="comment__card">
                             <div className='commenter'>{obj.displayName}</div>
                             <p>{obj.comment}</p>
@@ -218,14 +222,14 @@ const CommentFeed = () => {
                                 <div><i onClick={() => like(obj.commentId)} id='like' className='bx bx-up-arrow-alt'></i></div>
                                 <div>{obj.likeCount}</div>
                                 <div><i onClick={() => dislike(obj.commentId)} id='dislike' className='bx bx-down-arrow-alt' ></i></div>
-                                <div onClick={showReplyBox} className='show-replies'>Reply</div>
-                                <div onClick={() => showReply(obj.commentId)} className='show-replies'>Show Replies</div>
+                                <div onClick={() => showReplyBox(obj.commentId)} className='write-replies'>Reply</div>
+                                <div onClick={showReply(obj.commentId)} className='show-replies'>Show Replies</div>
                                 
                             </div>                          
                         </div>
                         {showReplies && showReplies.sort((a, b) => {return b.date - a.date}).map((rep) => {
                             return (
-                                <div className="comment__container">
+                                <div className="comment__container hidden" dataset={obj.commentId} id='first-reply'>
                                     <div className="comment__card">
                                         <div className='commenter'>{rep.displayName}</div>
                                         <p>{rep.comment}</p>
@@ -233,7 +237,6 @@ const CommentFeed = () => {
                                             <div><i onClick={() => like(obj.commentId)} id='like' className='bx bx-up-arrow-alt'></i></div>
                                             <div>{rep.likeCount}</div>
                                             <div><i onClick={() => dislike(obj.commentId)} id='dislike' className='bx bx-down-arrow-alt' ></i></div>
-                                            <div className='show-replies'>Show Replies</div>
                                             
                                         </div>
                                     </div>
@@ -241,7 +244,7 @@ const CommentFeed = () => {
                             )
                         })
                         }
-                        <div id='replyBox' className='commentSection hidden'>
+                        <div id='replyBox' className={`commentSection hidden ${obj.commentId}`} reply-id ={obj.commentId}>
                             <div className="commenter">Comment as {currentUser.displayName}</div>
 
                                 <div className="commentBox">
