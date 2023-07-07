@@ -413,12 +413,12 @@ li:hover{
     margin: 0.5rem auto;
 }
 
-.comment__container{
+.comment__container, .comment__container2{
     position: relative;
 
 }
 
-.comment__container::before{
+.comment__container::before, .comment__container2::before{
     content: "";
     position: absolute;
     background-color: rgb(182, 182, 182);
@@ -427,7 +427,7 @@ li:hover{
     left: -10px;
 }
 
-.comment__container:not(:first-child){
+.comment__container:not(:first-child), .comment__container2:not(:first-child){
     margin-left: 3rem;
     margin-top: 1rem;
 }

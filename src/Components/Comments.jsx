@@ -14,8 +14,6 @@ const [comment, setComment] = useState("");
 const sendComment = async (postId) => {
   const ids = currentUser.uid + uuid();
 
-      await setDoc(doc(db, "replies", ids),{});
-
       await updateDoc(doc(db, 'comments', postId), {
             [ids]: {
             commentId: ids,

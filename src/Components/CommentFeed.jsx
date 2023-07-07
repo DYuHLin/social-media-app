@@ -12,22 +12,6 @@ const CommentFeed = () => {
     const [replies, setReplies] = useState("");
     const [showReplies, setShowReplies] = useState();
 
-    const showReply = (replyId) => (e) => {   
-         onSnapshot(doc(db,"replies", replyId), (doc)=>{
-             doc.exists() && setShowReplies(Object.keys(doc.data()).map((key) => doc.data()[key]));
-             console.log(showReplies);
-
-             const commentBox = document.querySelectorAll('.comment__container');
-             commentBox.forEach((btn) => {
-                if(btn.classList.contains("hidden") && btn.classList.contains(replyId)){
-                    btn.classList.remove("hidden");
-                } else if(!btn.classList.contains("hidden") && btn.classList.contains(replyId)){
-                    btn.classList.add("hidden");
-                };
-             });
-         });
-    };
-
     const like = async (comId) => {
         let commentId = comId;
         try{
@@ -187,11 +171,11 @@ const CommentFeed = () => {
         });     
     };
 
-    const reply = async (replyId) => {
-        const replyBox = document.getElementById("replyBox");
+    const reply = async (replyId, commentId) => {
+        const replyBox = document.querySelectorAll(".commentSection");
         const ids = currentUser.uid + uuid();
 
-        await updateDoc(doc(db, 'replies', replyId), {
+        await updateDoc(doc(db, 'replies', commentId), {
                 [ids]: {
                 commentId: ids,
                 commenter: currentUser.uid,
@@ -203,7 +187,11 @@ const CommentFeed = () => {
                 date: Timestamp.now()}
             },
         )
-        replyBox.classList.add("hidden");
+        replyBox.forEach((btn) => {
+            if(!btn.classList.contains("hidden")) {
+                btn.classList.add("hidden");
+            };
+        });
         setReplies("");
     };
 
@@ -213,14 +201,19 @@ const CommentFeed = () => {
              doc.exists() && setComments(Object.keys(doc.data()).map((key) => doc.data()[key]));
            })
 
+           const reps = onSnapshot(doc(db,"replies", id), (doc)=>{
+            doc.exists() && setShowReplies(Object.keys(doc.data()).map((key) => doc.data()[key]));
+           });
+
            return() => {
              unSub();
+             reps();
            };
     },[]);
 
   return (   
     <>  
-          {comments.sort((a, b) => {return b.date - a.date}).map((obj) => {
+          {comments && comments.sort((a, b) => {return b.date - a.date}).map((obj) => {
             return (  
                 <div className={`container ${obj.commentId}`} key={obj.commentId}>
                     <div className="comment__container" id={obj.commentId}>
@@ -232,13 +225,22 @@ const CommentFeed = () => {
                                 <div>{obj.likeCount}</div>
                                 <div><i onClick={() => dislike(obj.commentId)} id='dislike' className='bx bx-down-arrow-alt' ></i></div>
                                 <div onClick={() => showReplyBox(obj.commentId)} className='write-replies'>Reply</div>
-                                <div onClick={showReply(obj.commentId)} className='show-replies'>Show Replies</div>
                                 
                             </div>                          
                         </div>
+                        <div id='replyBox' className={`commentSection hidden ${obj.commentId}`} reply-id ={obj.commentId}>
+                            <div className="commenter">Comment as {currentUser.displayName}</div>
+
+                                <div className="commentBox">
+                                    <textarea value={replies} onChange={(e) => setReplies(e.target.value)} className='postTextarea' name="" id="commentBox" cols="30" rows="5"></textarea>
+                                </div>
+                                <div className="postSubmit">
+                                    <button onClick={() => reply(obj.commentId, obj.replyTo)} className='registerBtn'>Post</button>
+                                </div>
+                        </div>
                         {showReplies && showReplies.sort((a, b) => {return b.date - a.date}).map((rep) => {
-                            return (
-                                <div className={`comment__container hidden ${obj.commentId}`} id='first-reply'>
+                            if(rep.replyTo === obj.commentId) {return (
+                                <div className={`comment__container2 ${obj.commentId}`} id='first-reply'>
                                     <div className="comment__card">
                                         <div className='commenter'>{rep.displayName}</div>
                                         <p>{rep.comment}</p>
@@ -250,93 +252,14 @@ const CommentFeed = () => {
                                         </div>
                                     </div>
                                 </div>
-                            )
+                            )}
                         })
                         }
-                        <div id='replyBox' className={`commentSection hidden ${obj.commentId}`} reply-id ={obj.commentId}>
-                            <div className="commenter">Comment as {currentUser.displayName}</div>
-
-                                <div className="commentBox">
-                                    <textarea value={replies} onChange={(e) => setReplies(e.target.value)} className='postTextarea' name="" id="commentBox" cols="30" rows="5"></textarea>
-                                </div>
-                                <div className="postSubmit">
-                                    <button onClick={() => reply(obj.commentId)} className='registerBtn'>Post</button>
-                                </div>
-                        </div>
                     </div>
                 </div>
              )
         })
-    }  
-             
-        {/* <div className="comment__container" id='first-comment'>
-            <div className="comment__card">
-                <h3>The first comment</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                <div className="comment__footer">
-                    <div>Likes</div>
-                    <div>Dislikes</div>
-                    <div className='show-replies'>Reply</div>
-                </div>
-            </div>
-            <div className="comment__container" dataset="first-comment" id='first-reply'>
-                <div className="comment__card">
-                    <h3>The first Reply</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    <div className="comment__footer">
-                        <div>Likes</div>
-                        <div>Dislikes</div>
-                        <div className='show-replies'>Reply</div>
-                    </div>
-                </div>
-                
-                <div className="comment__container" dataset="first-reply" id='first-first-reply'>
-                <div className="comment__card">
-                    <h3>The first Reply to the first reply</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    <div className="comment__footer">
-                        <div>Likes</div>
-                        <div>Dislikes</div>
-                        <div className='show-replies'>Reply</div>
-                    </div>
-                </div>
-                <div className="comment__container" dataset="first-first-reply" id='first-first-reply'>
-                <div className="comment__card">
-                    <h3>The first Reply to the first reply to the first reply</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    <div className="comment__footer">
-                        <div>Likes</div>
-                        <div>Dislikes</div>
-                        <div className='show-replies'>Reply</div>
-                    </div>
-                </div>
-            </div>
-            </div>
-
-            </div>
-            <div className="comment__container" dataset="first-comment" id='first-reply'>
-                <div className="comment__card">
-                    <h3>The second reply</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    <div className="comment__footer">
-                        <div>Likes</div>
-                        <div>Dislikes</div>
-                        <div className='show-replies'>Reply</div>
-                    </div>
-                </div>
-            </div>
-        </div> */}
-    
+    }     
     </>
   )
 }

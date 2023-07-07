@@ -55,7 +55,8 @@ const Post = () => {
   const createPost = async () => {
     const id = currentUser.uid + uuid();
     try{
-      await setDoc(doc(db, "comments", id), {comments: []});
+      await setDoc(doc(db, "comments", id), {});
+      await setDoc(doc(db, "replies", id), {});
 
       await setDoc(doc(db, "posts", id), {
         idPost: id,
