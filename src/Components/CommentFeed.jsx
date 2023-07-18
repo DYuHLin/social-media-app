@@ -195,6 +195,11 @@ const CommentFeed = () => {
         setReplies("");
     };
 
+    const show = () => {
+        console.log(showReplies);
+        console.log(comments);
+    }
+
     useEffect(() => {
          const unSub = onSnapshot(doc(db,"comments", id), (doc)=>{
 
@@ -225,6 +230,7 @@ const CommentFeed = () => {
                                 <div>{obj.likeCount}</div>
                                 <div><i onClick={() => dislike(obj.commentId)} id='dislike' className='bx bx-down-arrow-alt' ></i></div>
                                 <div onClick={() => showReplyBox(obj.commentId)} className='write-replies'>Reply</div>
+                                <div onClick={() => show()} className='write-replies'>show</div>
                                 
                             </div>                          
                         </div>
@@ -238,7 +244,7 @@ const CommentFeed = () => {
                                     <button onClick={() => reply(obj.commentId, obj.replyTo)} className='registerBtn'>Post</button>
                                 </div>
                         </div>
-                        {showReplies && showReplies.sort((a, b) => {return b.date - a.date}).map((rep) => {
+                        {showReplies && showReplies.sort((a, b) => {return a.date - b.date}).map((rep) => {
                             if(rep.replyTo === obj.commentId) {return (
                                 <div className={`comment__container2 ${obj.commentId}`} id='first-reply'>
                                     <div className="comment__card">

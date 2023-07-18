@@ -90,10 +90,10 @@ const Feed = () => {
            };           
     };
 
-    // const highlights = () => {
-    //     const likeBtn = document.getElementById("like");     
-    //     const dislikeBtn = document.getElementById("dislike");   
-    // };
+     const highlights = () => {
+         const likeBtn = document.getElementById("like");     
+         const dislikeBtn = document.getElementById("dislike");   
+     };
 
     useEffect(() => {
         onSnapshot(colRef, (snapshot) => {
@@ -107,7 +107,7 @@ const Feed = () => {
 
   return (
     <>
-        {posts.sort((a, b) => {return b.date - a.date}).map((obj) => {
+        {posts && posts.sort((a, b) => {return b.date - a.date}).map((obj) => {
             return (
                 <div className='post' key={obj.idPost}>
                     <div className="postContainer">
