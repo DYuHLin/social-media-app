@@ -60,7 +60,8 @@ const PostPage = () => {
             setPost(doc.data()); 
             const like = document.getElementById("post-like");
             const dislike = document.getElementById("post-dislike");
-
+            like.classList.remove("like");
+            dislike.classList.remove("dislike");
                  for(let i = 0; i < doc.data().likes.length; i++){
                       if(doc.data().likes[i].useId === currentUser.uid && 
                       doc.data().likes[i].likes === "yes"){
@@ -70,10 +71,7 @@ const PostPage = () => {
                       doc.data().likes[i].likes === "no"){
                           like.classList.remove("like");
                           dislike.classList.add("dislike");
-                      } else if(doc.data().likes[i].useId !== currentUser.uid){
-                        like.classList.remove("like");
-                        dislike.classList.remove("dislike");
-                      };
+                      }
                   };
 
         });
@@ -82,7 +80,7 @@ const PostPage = () => {
             sub();
         };
     };
-
+highLight()
     const dislike = async (id, userId) => {
         try{
             const docu = await getDoc(doc(db, "posts", id));
@@ -144,7 +142,7 @@ const PostPage = () => {
           };
 
     },[]);
-    
+
   return (
     <div className="home">
         <div className='singlePage'>
