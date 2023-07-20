@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { db } from '../Firebase';
 import UserContext from '../Context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 const Feed = () => {
     const [posts, setPosts] = useState([{}]);
@@ -90,11 +91,6 @@ const Feed = () => {
            };           
     };
 
-     const highlights = () => {
-         const likeBtn = document.getElementById("like");     
-         const dislikeBtn = document.getElementById("dislike");   
-     };
-
     useEffect(() => {
         onSnapshot(colRef, (snapshot) => {
             let post = [];
@@ -119,7 +115,7 @@ const Feed = () => {
                         <div className="postContent" onClick={() => navigate(`/${obj.idPost}`)}>
                             <div className="postInfo">
                                 <div className="poster">Posted by {obj.displayName}</div>
-                                <div className="postedate">A year ago</div>
+                                <div className="postedate">{obj.date && moment(obj.date.toDate()).fromNow()}</div>
                             </div>
                             <div className="posts">
                                 <div className="postText">

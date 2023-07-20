@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import { db } from '../Firebase';
 import { useParams } from 'react-router-dom';
 import UserContext from '../Context/UserContext';
+import moment from 'moment';
 
 const Replies = (props) => {
     const {id} = useParams();
@@ -157,7 +158,10 @@ const Replies = (props) => {
   return (
     <div className={`comment__container2 ${props.rep.commentId}`} id='first-reply'>
         <div className="comment__card">
-            <div className='commenter'>{props.rep.displayName}</div>
+        <div className="commenter__info">
+            <div className="commenter">Posted by {props.rep.displayName}</div>
+            <div className="commenter-date">{props.rep.date && moment(props.rep.date.toDate()).fromNow()}</div>
+        </div>
             <p>{props.rep.comment}</p>
                 <div className="comment__footer">
                     <div><i onClick={() => like(props.rep.commentId)} id='like' className='bx bx-up-arrow-alt'></i></div>

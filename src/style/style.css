@@ -462,3 +462,14 @@ li:hover{
     color: grey;
     margin-bottom: 14px;
 }
+
+.commenter-date{
+    font-size: 14px;
+    color: grey;
+    margin-bottom: 14px;
+}
+
+.commenter__info{
+    display: flex;
+    justify-content: space-between;
+}

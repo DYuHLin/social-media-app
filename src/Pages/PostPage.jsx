@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import Comments from '../Components/Comments';
 import CommentFeed from '../Components/CommentFeed';
 import UserContext from '../Context/UserContext';
+import moment from 'moment';
 
 const PostPage = () => {
     const {id} = useParams();
@@ -16,9 +17,10 @@ const PostPage = () => {
     const like = async (id, userId) => {           
         try{
             const docu = await getDoc(doc(db, "posts", id));
-            // console.log(docu.data().likes);
+             console.log(post);
             let obj = docu.data().likes.find((x) => x.useId === userId);
             highLight();
+            conversion()
             if(!docu.data().likes.find((x) => x.useId === userId)){;
                 // highLight(); 
                 return updateDoc(doc(db, 'posts', id), {
@@ -55,32 +57,38 @@ const PostPage = () => {
            }; 
     };
 
+    const conversion = () => {
+        const date = new Date(null)
+        date.setTime(256000000 * 1000)
+        console.log(date.toLocaleString())
+    }
+
     const highLight = () => {
-        const sub = onSnapshot(doc(db, 'posts', `${id}`), (doc) => {
-            setPost(doc.data()); 
-            const like = document.getElementById("post-like");
-            const dislike = document.getElementById("post-dislike");
-            like.classList.remove("like");
-            dislike.classList.remove("dislike");
-                 for(let i = 0; i < doc.data().likes.length; i++){
-                      if(doc.data().likes[i].useId === currentUser.uid && 
-                      doc.data().likes[i].likes === "yes"){
-                        like.classList.add("like");
-                        dislike.classList.remove("dislike");
-                      } else if(doc.data().likes[i].useId === currentUser.uid && 
-                      doc.data().likes[i].likes === "no"){
-                          like.classList.remove("like");
-                          dislike.classList.add("dislike");
-                      }
-                  };
+        // const sub = onSnapshot(doc(db, 'posts', `${id}`), (doc) => {
+        //     setPost(doc.data()); 
+        //     const like = document.getElementById("post-like");
+        //     const dislike = document.getElementById("post-dislike");
+        //     like.classList.remove("like");
+        //     dislike.classList.remove("dislike");
+        //          for(let i = 0; i < doc.data().likes.length; i++){
+        //               if(doc.data().likes[i].useId === currentUser.uid && 
+        //               doc.data().likes[i].likes === "yes"){
+        //                 like.classList.add("like");
+        //                 dislike.classList.remove("dislike");
+        //               } else if(doc.data().likes[i].useId === currentUser.uid && 
+        //               doc.data().likes[i].likes === "no"){
+        //                   like.classList.remove("like");
+        //                   dislike.classList.add("dislike");
+        //               }
+        //           };
 
-        });
+        // });
 
-        return() => {
-            sub();
-        };
+        // return() => {
+        //     sub();
+        // };
     };
-highLight()
+
     const dislike = async (id, userId) => {
         try{
             const docu = await getDoc(doc(db, "posts", id));
@@ -137,8 +145,8 @@ highLight()
 
         return() => {
             unSub();
-            sub();     
-            highLight();            
+            sub();   
+            highLight();         
           };
 
     },[]);
@@ -158,7 +166,7 @@ highLight()
                         <div className="postContent">
                             <div className="postInfo">
                                 <div className="poster">Posted by {post.displayName}</div>
-                                <div className="postedate">{}</div>
+                                <div className="postedate">{post.date && moment(post.date.toDate()).fromNow()}</div>
                             </div>
                             <div className="posts">
                                 <div className="postText">

@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import UserContext from '../Context/UserContext';
 import { v4 as uuid } from 'uuid';
 import Replies from './Replies';
+import moment from 'moment';
 
 const CommentFeed = () => {
     const {id} = useParams();
@@ -196,31 +197,6 @@ const CommentFeed = () => {
         setReplies("");
     };
 
-    const highlight = () => {
-        const sub = onSnapshot(doc(db, 'comments', `${id}`), (doc) => {
- 
-            const like = document.getElementById("post-like");
-            const dislike = document.getElementById("post-dislike");
-            like.classList.remove("like");
-            dislike.classList.remove("dislike");
-                 for(let i = 0; i < doc.data().likes.length; i++){
-                      if(doc.data().likes[i].useId === currentUser.uid && 
-                      doc.data().likes[i].likes === "yes"){
-                        like.classList.add("like");
-                        dislike.classList.remove("dislike");
-                      } else if(doc.data().likes[i].useId === currentUser.uid && 
-                      doc.data().likes[i].likes === "no"){
-                          like.classList.remove("like");
-                          dislike.classList.add("dislike");
-                      }
-                  };
-        });
-
-        return() => {
-            sub();
-        };
-    }
-
     useEffect(() => {
          const unSub = onSnapshot(doc(db,"comments", id), (doc)=>{
 
@@ -244,7 +220,11 @@ const CommentFeed = () => {
                 <div className={`container ${obj.commentId}`} key={obj.commentId}>
                     <div className="comment__container" id={obj.commentId}>
                         <div className="comment__card">
-                            <div className='commenter'>{obj.displayName}</div>
+                            <div className="commenter__info">
+                                <div className='commenter'>{obj.displayName}</div>
+                                <div className='commenter-date'>{obj.date && moment(obj.date.toDate()).fromNow()}</div>
+                            </div>
+                            
                             <p>{obj.comment}</p>
                             <div className="comment__footer">
                                 <div><i onClick={() => like(obj.commentId)} id='like' className='bx bx-up-arrow-alt'></i></div>
