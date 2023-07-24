@@ -91,6 +91,10 @@ const Feed = () => {
            };           
     };
 
+    const newest = () => {
+        
+    };
+
     useEffect(() => {
         onSnapshot(colRef, (snapshot) => {
             let post = [];

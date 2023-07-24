@@ -25,7 +25,7 @@ const Home = () => {
               <span>Top</span>
             </div>
             <div className="sortIcon">
-            <i className='bx bxs-certification'></i>
+            <i className='bx bxs-certification selected'></i>
               <span>New</span>
             </div>
             <div className="sortIcon">

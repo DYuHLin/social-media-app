@@ -59,10 +59,18 @@
     width: 60%;
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.searchTitle{
+    color: rgb(24, 94, 224);
 }
 
 .textSearch{
     width: 40%;
+    display: flex;
+    justify-content: center;
 }
 
 .profile{
@@ -315,6 +323,16 @@ label{
     right: 20px;
 }
 
+.searchBox{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width: 40%;
+    padding: 12px;
+    cursor: pointer;
+    margin-top: 120px;
+}
+
 .optionUser{
     font-size: 20px;
     font-weight: 600;
@@ -472,4 +490,8 @@ li:hover{
 .commenter__info{
     display: flex;
     justify-content: space-between;
+}
+
+.selected{
+    color: rgb(21, 81, 194);
 }
