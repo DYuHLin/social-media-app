@@ -327,10 +327,20 @@ label{
     display: flex;
     flex-direction: column;
     background-color: white;
-    width: 40%;
+    width: 100%;
     padding: 12px;
     cursor: pointer;
-    margin-top: 120px;
+}
+
+.searchContainer{
+    top: 80px;
+    position: absolute;
+    width: 60%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.6);
 }
 
 .optionUser{

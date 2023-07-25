@@ -38,27 +38,28 @@ const Nav = () => {
         <div className="search">
             <input onChange={(e) => setSearch(e.target.value)} className='textSearch' type="text" autoComplete='off' placeholder='Search'/>
 
-            {post.filter((val) => {
-              if(search === ""){
-                return;
-              } else if(val.displayName.toLowerCase().includes(search.toLowerCase()) 
-              || val.title.toLowerCase().includes(search.toLowerCase()) 
-              || val.postDesc.toLowerCase().includes(search.toLowerCase())){
-                return val;
-              }
-            }).map((obj) => {
-              return(
-                <div className="searchBox" onClick={() => navigate(`/${obj.idPost}`)}>
-                    <div className="searchTitle">
-                      {obj.title}
-                    </div>
-                    <div className="searchBody">
-                      {obj.postDesc}
-                    </div>
-                </div>
-              )
-            })}
-            
+            <div className="searchContainer">
+              {post.filter((val) => {
+                if(search === ""){
+                  return;
+                } else if(val.displayName.toLowerCase().includes(search.toLowerCase()) 
+                || val.title.toLowerCase().includes(search.toLowerCase()) 
+                || val.postDesc.toLowerCase().includes(search.toLowerCase())){
+                  return val;
+                }
+              }).map((obj) => {
+                return(
+                  <div className="searchBox" onClick={() => navigate(`/${obj.idPost}`)}>
+                      <div className="searchTitle">
+                        {obj.title}
+                      </div>
+                      <div className="searchBody">
+                        {obj.postDesc}
+                      </div>
+                  </div>
+                )
+              })}
+            </div>            
         </div>
         
         <div className="profile" onClick={optionMenu}>
