@@ -121,6 +121,7 @@ const Feed = () => {
                                 <div className="poster">Posted by {obj.displayName}</div>
                                 <div className="postedate">{obj.date && moment(obj.date.toDate()).fromNow()}</div>
                             </div>
+                            
                             <div className="posts">
                                 <div className="postText">
                                     {obj.title}
@@ -128,6 +129,9 @@ const Feed = () => {
                                 {obj.postImg !== "" && <div className="postImg">
                                     <img className='postImage' src={`${obj.postImg}`} alt="A Post" />
                                 </div> }
+                                 {obj.postVid !== "" && <div className="postImg">
+                                 <video className='postVid' src={obj.postVid} controls autoPlay></video>
+                                </div> } 
                             </div>
                             <div className="commentBtn">
                                 <i className='bx bxs-comment'></i>

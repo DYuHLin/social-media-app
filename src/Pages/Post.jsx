@@ -11,6 +11,7 @@ const Post = () => {
   const [heading, setHeading] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
+  const [video, setVideo] = useState("");
   const [link, setLink] = useState("");
   
   const {currentUser} = useContext(UserContext);
@@ -19,37 +20,55 @@ const Post = () => {
   const switchTabs = (choice) => {
     const postText = document.getElementById("texts");
     const postImg = document.getElementById("img");
+    const postVid = document.getElementById("vid");
     const postLink = document.getElementById("links");
 
     const tabText = document.getElementById("textTab");
     const tabImg = document.getElementById("imgTab");
+    const tabVid = document.getElementById("vidTab");
     const tabLink = document.getElementById("linkTab");
 
     if(choice === "text"){
         postText.classList.remove("hidden");
         postImg.classList.add("hidden");
         postLink.classList.add("hidden");
+        postVid.classList.add("hidden");
 
         tabText.classList.add("active");
         tabImg.classList.remove("active");
         tabLink.classList.remove("active");
+        tabVid.classList.remove("active");
     } else if(choice === "img"){
         postText.classList.add("hidden");
         postImg.classList.remove("hidden");
         postLink.classList.add("hidden");
+        postVid.classList.add("hidden");
 
         tabText.classList.remove("active");
         tabImg.classList.add("active");
         tabLink.classList.remove("active");
+        tabVid.classList.remove("active");
     } else if(choice === "link"){
         postText.classList.add("hidden");
         postImg.classList.add("hidden");
         postLink.classList.remove("hidden");
+        postVid.classList.add("hidden");
 
         tabText.classList.remove("active");
         tabImg.classList.remove("active");
         tabLink.classList.add("active");
-    };
+        tabVid.classList.remove("active");
+    } else if(choice === "vid"){
+      postText.classList.add("hidden");
+      postImg.classList.add("hidden");
+      postLink.classList.add("hidden");
+      postVid.classList.remove("hidden");
+
+      tabText.classList.remove("active");
+      tabImg.classList.remove("active");
+      tabLink.classList.remove("active");
+      tabVid.classList.add("active");
+  }
   };
 
   const createPost = async () => {
@@ -65,6 +84,7 @@ const Post = () => {
         title: heading,
         postDesc: description,
         postImg: image,
+        postVid: video,
         links: link,
         likes: [],
         likeCount: 0,
@@ -78,6 +98,7 @@ const Post = () => {
             title: heading,
             postDesc: description,
             postImg: image,
+            postVid: video,
             links: link
           },
           [id + ".date"]: serverTimestamp(),
@@ -104,7 +125,8 @@ const Post = () => {
             <div className="createPosts">
               <div className="switchTypes">
                 <div id='textTab' onClick={() => switchTabs("text")} className="postLink active">Post</div>
-                <div id='imgTab' onClick={() => switchTabs("img")} className="postLink">Image or Video</div>
+                <div id='imgTab' onClick={() => switchTabs("img")} className="postLink">Image</div>
+                <div id='vidTab' onClick={() => switchTabs("vid")} className="postLink">Video</div>
                 <div id='linkTab' onClick={() => switchTabs("link")} className="postLink">Link</div>
               </div>
 
@@ -112,6 +134,7 @@ const Post = () => {
                 <input id='titlePost' onChange={(e) => {setHeading(e.target.value)}} value={heading} className='posterText' type="text" autoComplete='off' placeholder='Title'/>  
                 <textarea onChange={(e) => {setDescription(e.target.value)}} value={description} className='postTextarea' name="" id="texts" cols="30" rows="10" placeholder='Text'></textarea>   
                 <textarea onChange={(e) => {setImage(e.target.value)}} value={image} className='postTextarea hidden' name="" id="img" cols="30" rows="10" placeholder='Link'></textarea>   
+                <textarea onChange={(e) => {setVideo(e.target.value)}} value={video} className='postTextarea hidden' name="" id="vid" cols="30" rows="10" placeholder='Link'></textarea>   
                 <textarea onChange={(e) => {setLink(e.target.value)}} value={link} className='postTextarea hidden' name="" id="links" cols="30" rows="10" placeholder='Link'></textarea>   
               </div>
               
