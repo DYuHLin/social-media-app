@@ -294,6 +294,58 @@ label{
     height: 600px;
 }
 
+.postLinked{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 22px;
+}
+
+.linkBox{
+    height: 100px;
+    width: 150px;
+    border: 1.5px solid rgb(21, 81, 194);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+a{
+    color: rgb(21, 81, 194);
+    text-decoration: none;
+}
+
+.linkBtm{
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.linkBx{
+    padding: 2px;
+    background-color: rgb(21, 81, 194);
+}
+
+.bx-link-external{
+    color: white;
+}
+
+.linkMiddle{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.bx-link{
+    color: rgb(21, 81, 194);
+    font-size: 26px;
+}
+
 .postDesc{
     display: flex;
     width: 100%;

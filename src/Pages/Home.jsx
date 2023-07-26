@@ -19,6 +19,21 @@ const Home = () => {
           <button onClick={() => navigate("/post")} className='postBtn'>Create Post</button>
           </div>
 
+          <div className="sortPost">
+            <div className="sortIcon">
+              <i className='bx bx-signal-3' ></i>
+              <span>Top</span>
+            </div>
+            <div className="sortIcon">
+            <i className='bx bxs-certification selected'></i>
+              <span>New</span>
+            </div>
+            <div className="sortIcon">
+              <i className='bx bx-time' ></i>
+              <span>Old</span>
+            </div>
+          </div>
+
           <div className="feed">
             <Feed />
           </div>

@@ -132,6 +132,24 @@ const Feed = () => {
                                  {obj.postVid !== "" && <div className="postImg">
                                  <video className='postVid' src={obj.postVid} controls autoPlay></video>
                                 </div> } 
+                                {obj.links !== "" && <div className="postLinked">
+                                    <div className="wLink">
+                                        <a href={obj.links}>{obj.links}</a>
+                                    </div>
+                                    <a href={obj.links}>
+                                        <div className="linkBox">
+                                            <div className="linkMiddle">
+                                                <i class='bx bx-link'></i>
+                                            </div>                                     
+                                            <div className="linkBtm">
+                                                <div className="linkBx">
+                                                    <i class='bx bx-link-external'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>                                  
+                                </div> } 
+                                
                             </div>
                             <div className="commentBtn">
                                 <i className='bx bxs-comment'></i>
