@@ -5,7 +5,7 @@ import UserContext from '../Context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
-const Feed = () => {
+const Feed = (props) => {
     const [posts, setPosts] = useState([{}]);
     const colRef = collection(db, 'posts');
     const {currentUser} = useContext(UserContext);
@@ -91,10 +91,6 @@ const Feed = () => {
            };           
     };
 
-    const newest = () => {
-        
-    };
-
     useEffect(() => {
         onSnapshot(colRef, (snapshot) => {
             let post = [];
@@ -107,7 +103,15 @@ const Feed = () => {
 
   return (
     <>
-        {posts && posts.sort((a, b) => {return b.date - a.date}).map((obj) => {
+        {posts && posts.sort((a, b) => {
+        if(props.new === true){
+            return b.date - a.date;
+        } else if(props.old === true){
+            return a.date - b.date;
+        } else if(props.best === true){
+            return b.likeCount - a.likeCount;
+        };
+    }).map((obj) => {
             return (
                 <div className='post' key={obj.idPost}>
                     <div className="postContainer">
@@ -130,7 +134,7 @@ const Feed = () => {
                                     <img className='postImage' src={`${obj.postImg}`} alt="A Post" />
                                 </div> }
                                  {obj.postVid !== "" && <div className="postImg">
-                                 <video className='postVid' src={obj.postVid} controls autoPlay></video>
+                                 <video className='postVid' src={obj.postVid} controls autoPlay muted></video>
                                 </div> } 
                                 {obj.links !== "" && <div className="postLinked">
                                     <div className="wLink">

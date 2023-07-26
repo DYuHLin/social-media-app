@@ -176,6 +176,26 @@ const PostPage = () => {
                                     <img className='postImage' src={`${post.postImg}`} alt="A Post" />
                                 </div> }
                                 {post.postDec !== "" && <div className='postDesc'>{post.postDesc}</div>}
+                                {post.postVid !== "" && <div className="postImg">
+                                 <video className='postVid' src={post.postVid} controls autoPlay muted></video>
+                                </div> } 
+                                {post.links !== "" && <div className="postLinked">
+                                    <div className="wLink">
+                                        <a href={post.links}>{post.links}</a>
+                                    </div>
+                                    <a href={post.links}>
+                                        <div className="linkBox">
+                                            <div className="linkMiddle">
+                                                <i class='bx bx-link'></i>
+                                            </div>                                     
+                                            <div className="linkBtm">
+                                                <div className="linkBx">
+                                                    <i class='bx bx-link-external'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>                                  
+                                </div> }
                             </div>
                             <div className="commentBtn">
                                 <i className='bx bxs-comment'></i>
