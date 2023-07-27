@@ -13,6 +13,32 @@ const PostPage = () => {
     const [post, setPost] = useState({});
     const [comments, setComments] = useState([]);
     const {currentUser} = useContext(UserContext);
+    const [news, setNews] = useState(true);
+    const [old, setOld] = useState(false);
+    const [best, setBest] = useState(false);
+
+    const switchCommentFilter = (choice) => {
+        const options = document.getElementById("filterOptionList");
+        const optionsName = document.getElementById("filterName");
+        if(choice === "top"){
+            setBest(true);
+            setNews(false);
+            setOld(false);
+            optionsName.innerHTML = "Top";
+        } else if(choice === "new"){  
+          setBest(false);
+          setNews(true);
+          setOld(false);
+          optionsName.innerHTML = "New";
+        } else if(choice === "old"){
+          setBest(false);
+          setNews(false);
+          setOld(true);
+          optionsName.innerHTML = "Old";
+        }
+
+        options.classList.add("hidden");
+      };
 
     const like = async (id, userId) => {           
         try{
@@ -133,6 +159,15 @@ const PostPage = () => {
            };           
     };
 
+    const optionMenu = () => {
+        const options = document.getElementById("filterOptionList");
+        if(options.classList.contains("hidden")){
+          options.classList.remove("hidden");
+        } else {
+          options.classList.add("hidden");
+        };
+      };
+
     useEffect(() => {
         const unSub = onSnapshot(doc(db,"comments", id), (doc)=>{
 
@@ -202,7 +237,24 @@ const PostPage = () => {
                                 <div className="commentHeading">{comments.length} Comments</div>
                             </div>
                             <Comments />
-                            <CommentFeed />
+                            <div className="filterComments">
+                                <p>Sort By </p>
+                                <div className="filters">
+                                    <div className="filterBtn" onClick={optionMenu}>
+
+                                       <p id='filterName'>New</p> <i class='bx bx-chevron-down'></i>
+                                        </div>
+                                    <div id='filterOptionList' className="filterOptionList hidden">
+                                        <ul className="filterOptions">
+                                            <li onClick={() => switchCommentFilter("new")}><div className="optionText">New</div></li>
+                                            <li onClick={() => switchCommentFilter("old")}><div className="optionText">Old</div></li>
+                                            <li onClick={() => switchCommentFilter("top")}><div className="optionText">Top</div></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <CommentFeed new = {news} old = {old} top = {best}/>
                         </div>
                     </div>
                 </div>

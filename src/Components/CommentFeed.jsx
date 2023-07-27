@@ -7,7 +7,7 @@ import { v4 as uuid } from 'uuid';
 import Replies from './Replies';
 import moment from 'moment';
 
-const CommentFeed = () => {
+const CommentFeed = (props) => {
     const {id} = useParams();
     const [comments, setComments] = useState([{}]);
     const {currentUser} = useContext(UserContext);
@@ -215,7 +215,15 @@ const CommentFeed = () => {
 
   return (   
     <>  
-          {comments && comments.sort((a, b) => {return b.date - a.date}).map((obj) => {
+          {comments && comments.sort((a, b) => {
+            if(props.new === true){
+                return b.date - a.date;
+            } else if(props.old === true){
+                return a.date - b.date;
+            } else if(props.top === true){
+                return b.likeCount - a.likeCount;
+            };
+          }).map((obj) => {
             return (  
                 <div className={`container ${obj.commentId}`} key={obj.commentId}>
                     <div className="comment__container" id={obj.commentId}>

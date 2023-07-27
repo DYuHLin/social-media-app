@@ -381,6 +381,16 @@ a{
     right: 20px;
 }
 
+.filterOptions{
+    position: relative;
+    background-color: white;
+    padding: 12px;
+    border-radius: 7px;
+    box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.6);
+    left: 12px;
+    top: 12px;
+}
+
 .searchBox{
     display: flex;
     flex-direction: column;
@@ -562,4 +572,17 @@ li:hover{
 
 .selected{
     color: rgb(21, 81, 194);
+}
+
+.filterComments{
+    margin-top: 16px;
+    width: 100%;
+    display: flex;
+    gap: 12px;
+}
+
+.filterBtn{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
 }
