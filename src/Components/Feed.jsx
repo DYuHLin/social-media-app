@@ -122,8 +122,10 @@ const Feed = (props) => {
                         </div>
                         <div className="postContent" onClick={() => navigate(`/${obj.idPost}`)}>
                             <div className="postInfo">
-                                <div className="poster">Posted by {obj.displayName}</div>
-                                <div className="postedate">{obj.date && moment(obj.date.toDate()).fromNow()}</div>
+                                <div className='postNameDate'>
+                                    <div className="poster">Posted by {obj.displayName}</div>
+                                    <div className="postedate">{obj.date && moment(obj.date.toDate()).fromNow()}</div>
+                                </div>                    
                             </div>
                             
                             <div className="posts">

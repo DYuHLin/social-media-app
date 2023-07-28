@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Nav from '../Components/Nav'
-import { arrayRemove, arrayUnion, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, doc, getDoc, onSnapshot, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../Firebase';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Comments from '../Components/Comments';
 import CommentFeed from '../Components/CommentFeed';
 import UserContext from '../Context/UserContext';
@@ -16,6 +16,7 @@ const PostPage = () => {
     const [news, setNews] = useState(true);
     const [old, setOld] = useState(false);
     const [best, setBest] = useState(false);
+    const navigate = useNavigate();
 
     const switchCommentFilter = (choice) => {
         const options = document.getElementById("filterOptionList");
@@ -168,6 +169,22 @@ const PostPage = () => {
         };
       };
 
+      const deleteMenu = () => {
+        const deleteMnu = document.getElementById("deleteList");
+        if(deleteMnu.classList.contains("hidden")){
+            deleteMnu.classList.remove("hidden");
+        } else {
+            deleteMnu.classList.add("hidden");
+        };
+      };
+
+      const deletePost = (delId) => {
+        const dltDcu = doc(db, "posts", delId);
+
+        deleteDoc(dltDcu);
+        navigate("/");
+      };
+
     useEffect(() => {
         const unSub = onSnapshot(doc(db,"comments", id), (doc)=>{
 
@@ -200,8 +217,18 @@ const PostPage = () => {
                         </div>
                         <div className="postContent">
                             <div className="postInfo">
-                                <div className="poster">Posted by {post.displayName}</div>
-                                <div className="postedate">{post.date && moment(post.date.toDate()).fromNow()}</div>
+                                <div className='postNameDate'>
+                                    <div className="poster">Posted by {post.displayName}</div>
+                                    <div className="postedate">{post.date && moment(post.date.toDate()).fromNow()}</div>
+                                </div>
+                                {currentUser.uid === post.postUid &&<div> <i onClick={deleteMenu} class='bx bx-trash'></i>
+                                <div id='deleteList' className="profileList hidden">
+                                    <ul className='deleteOptions'>
+                                        <li onClick={() => {deletePost(post.idPost)}}><div className="optionUser">Delete Post</div></li>
+                                    </ul>
+                                    </div>
+                                </div>
+                                }  
                             </div>
                             <div className="posts">
                                 <div className="postText">

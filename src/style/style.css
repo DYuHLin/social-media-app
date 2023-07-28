@@ -271,10 +271,17 @@ label{
 }
 
 .postInfo{
+    width: 100%;
     display: flex;
-    gap: 14px;
+    justify-content: space-between;
+    align-items: center;
     font-size: 10px;
     color: gray;
+}
+
+.bx-trash{
+    cursor: pointer;
+    font-size: 24px;
 }
 
 .postText{
@@ -389,6 +396,15 @@ a{
     box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.6);
     left: 12px;
     top: 12px;
+}
+
+.deleteOptions{
+    position: absolute;
+    background-color: white;
+    padding: 12px;
+    border-radius: 7px;
+    box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.6);
+    top: 162px;
 }
 
 .searchBox{
@@ -585,4 +601,13 @@ li:hover{
     cursor: pointer;
     display: flex;
     align-items: center;
+}
+
+.postNameDate{
+    display: flex;
+    gap: 18px;
+}
+
+.deleteWindow{
+    color: red;
 }
