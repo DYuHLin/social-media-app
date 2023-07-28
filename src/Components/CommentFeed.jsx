@@ -160,6 +160,30 @@ const CommentFeed = (props) => {
         };
     };
 
+    const deleteComment = async (comId) => {
+        let commentId = comId;
+        try{
+            const docu = await getDoc(doc(db, "comments", id));
+             console.log(docu.data()[comId]);
+             let obj = docu.data()[comId].likes.find((x) => x.useId === currentUser.uid);
+
+             await updateDoc(doc(db, "comments", id), {
+                [commentId]:{
+                    commentId: docu.data()[comId].commentId,
+                    commenter: docu.data()[comId].commenter,
+                    displayName: "[Deleted]",
+                    replyTo: docu.data()[comId].replyTo,
+                    comment: "[Deleted]",
+                    likes: docu.data()[comId].likes,
+                    likeCount: docu.data()[comId].likeCount -1,
+                    date: docu.data()[comId].date
+                }
+             });
+        } catch(err){
+
+        };
+    };
+
     const showReplyBox = (replyId) => {
         let remove = replyId;
         const replyBox = document.querySelectorAll(".commentSection");
@@ -239,7 +263,7 @@ const CommentFeed = (props) => {
                                 <div>{obj.likeCount}</div>
                                 <div><i onClick={() => dislike(obj.commentId)} id='dislike' className='bx bx-down-arrow-alt' ></i></div>
                                 <div onClick={() => showReplyBox(obj.commentId)} className='write-replies'>Reply</div>
-                                
+                                {obj.commenter === currentUser.uid && <i onClick={() => deleteComment(obj.commentId)} class='bx bx-trash'></i>}
                             </div>                          
                         </div>
                         <div id='replyBox' className={`commentSection hidden ${obj.commentId}`} reply-id ={obj.commentId}>

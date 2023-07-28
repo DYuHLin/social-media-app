@@ -155,6 +155,30 @@ const Replies = (props) => {
         };
     };
 
+    const deleteReply = async (comId) => {
+        let commentId = comId;
+        try{
+            const docu = await getDoc(doc(db, "replies", id));
+             console.log(docu.data()[comId]);
+             let obj = docu.data()[comId].likes.find((x) => x.useId === currentUser.uid);
+
+             await updateDoc(doc(db, "replies", id), {
+                [commentId]:{
+                    commentId: docu.data()[comId].commentId,
+                    commenter: docu.data()[comId].commenter,
+                    displayName: "[Deleted]",
+                    replyTo: docu.data()[comId].replyTo,
+                    comment: "[Deleted]",
+                    likes: docu.data()[comId].likes,
+                    likeCount: docu.data()[comId].likeCount -1,
+                    date: docu.data()[comId].date
+                }
+             });
+        } catch(err){
+
+        };
+    };
+
   return (
     <div className={`comment__container2 ${props.rep.commentId}`} id='first-reply'>
         <div className="comment__card">
@@ -167,7 +191,8 @@ const Replies = (props) => {
                     <div><i onClick={() => like(props.rep.commentId)} id='like' className='bx bx-up-arrow-alt'></i></div>
                     <div>{props.rep.likeCount}</div>
                     <div><i onClick={() => dislike(props.rep.commentId)} id='dislike' className='bx bx-down-arrow-alt' ></i></div>
-                                            
+                    {props.rep.commenter === currentUser.uid && <i onClick={() => deleteReply(props.rep.commentId)} class='bx bx-trash'></i>}
+                                           
                 </div>
         </div>
     </div>
