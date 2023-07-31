@@ -13,7 +13,6 @@ const Replies = (props) => {
         let commentId = comId;
         try{
              const docu = await getDoc(doc(db, "replies", id));
-             console.log(docu.data()[comId]);
              let obj = docu.data()[comId].likes.find((x) => x.useId === currentUser.uid);
 
              if(!obj){
@@ -86,7 +85,6 @@ const Replies = (props) => {
         let commentId = comId;
         try{
              const docu = await getDoc(doc(db, "replies", id));
-             console.log(docu.data()[comId]);
              let obj = docu.data()[comId].likes.find((x) => x.useId === currentUser.uid);
              
              if(!obj){
@@ -159,7 +157,6 @@ const Replies = (props) => {
         let commentId = comId;
         try{
             const docu = await getDoc(doc(db, "replies", id));
-             console.log(docu.data()[comId]);
              let obj = docu.data()[comId].likes.find((x) => x.useId === currentUser.uid);
 
              await updateDoc(doc(db, "replies", id), {

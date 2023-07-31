@@ -18,7 +18,6 @@ const CommentFeed = (props) => {
         let commentId = comId;
         try{
              const docu = await getDoc(doc(db, "comments", id));
-             console.log(docu.data()[comId]);
              let obj = docu.data()[comId].likes.find((x) => x.useId === currentUser.uid);
 
              if(!obj){
@@ -91,7 +90,6 @@ const CommentFeed = (props) => {
         let commentId = comId;
         try{
              const docu = await getDoc(doc(db, "comments", id));
-             console.log(docu.data()[comId]);
              let obj = docu.data()[comId].likes.find((x) => x.useId === currentUser.uid);
              
              if(!obj){
@@ -164,7 +162,6 @@ const CommentFeed = (props) => {
         let commentId = comId;
         try{
             const docu = await getDoc(doc(db, "comments", id));
-             console.log(docu.data()[comId]);
              let obj = docu.data()[comId].likes.find((x) => x.useId === currentUser.uid);
 
              await updateDoc(doc(db, "comments", id), {
@@ -188,7 +185,6 @@ const CommentFeed = (props) => {
         let remove = replyId;
         const replyBox = document.querySelectorAll(".commentSection");
         replyBox.forEach((btn) => {
-            console.log(remove)
          if(btn.classList.contains("hidden") && btn.classList.contains(remove)){
              btn.classList.remove("hidden");
          } else if(!btn.classList.contains("hidden") && btn.classList.contains(remove)){

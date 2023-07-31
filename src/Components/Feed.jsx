@@ -14,7 +14,6 @@ const Feed = (props) => {
     const like = async (id, userId) => {           
         try{
             const docu = await getDoc(doc(db, "posts", id));
-            console.log(docu.data().likes);
             let obj = docu.data().likes.find((x) => x.useId === userId);
             if(!docu.data().likes.find((x) => x.useId === userId)){;
                 return updateDoc(doc(db, 'posts', id), {
@@ -53,7 +52,6 @@ const Feed = (props) => {
     const dislike = async (id, userId) => {
         try{
             const docu = await getDoc(doc(db, "posts", id));
-            console.log(docu.data().likes);
             let obj = docu.data().likes.find((x) => x.useId === userId);
 
             if(!docu.data().likes.find((x) => x.useId === userId)){
@@ -116,9 +114,11 @@ const Feed = (props) => {
                 <div className='post' key={obj.idPost}>
                     <div className="postContainer">
                         <div className="vote">
-                            <i id='like' onClick={() => like(obj.idPost, currentUser.uid)} className='bx bx-up-arrow-alt'></i>
+                            <i id='like' onClick={() => like(obj.idPost, currentUser.uid)} 
+                            className='bx bx-up-arrow-alt'></i>
                             <span>{obj.likeCount}</span>
-                            <i id='dislike' onClick={() => dislike(obj.idPost, currentUser.uid)} className='bx bx-down-arrow-alt' ></i>   
+                            <i id='dislike' onClick={() => dislike(obj.idPost, currentUser.uid)} 
+                            className='bx bx-down-arrow-alt' ></i>   
                         </div>
                         <div className="postContent" onClick={() => navigate(`/${obj.idPost}`)}>
                             <div className="postInfo">

@@ -32,7 +32,7 @@ const sendComment = async (postId) => {
 };
 
   return (
-    <div className='commentSection'>
+    <div className='commentSection2'>
         <div className="commenter">Comment as {currentUser.displayName}</div>
 
         <div className="commentBox">

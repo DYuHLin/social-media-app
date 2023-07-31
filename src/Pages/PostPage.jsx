@@ -44,12 +44,8 @@ const PostPage = () => {
     const like = async (id, userId) => {           
         try{
             const docu = await getDoc(doc(db, "posts", id));
-             console.log(post);
             let obj = docu.data().likes.find((x) => x.useId === userId);
-            highLight();
-            conversion()
             if(!docu.data().likes.find((x) => x.useId === userId)){;
-                // highLight(); 
                 return updateDoc(doc(db, 'posts', id), {
                     likes: arrayUnion({
                         useId: currentUser.uid,
@@ -59,7 +55,6 @@ const PostPage = () => {
                     likeCount: docu.data().likeCount +1
                 });
             } else if(obj && obj.likes === "no"){
-                // highLight(); 
                 await updateDoc(doc(db, 'posts', id), {
                     likes: arrayRemove(obj)
                 });
@@ -84,47 +79,34 @@ const PostPage = () => {
            }; 
     };
 
-    const conversion = () => {
-        const date = new Date(null)
-        date.setTime(256000000 * 1000)
-        console.log(date.toLocaleString())
-    }
-
     const highLight = () => {
-        // const sub = onSnapshot(doc(db, 'posts', `${id}`), (doc) => {
-        //     setPost(doc.data()); 
-        //     const like = document.getElementById("post-like");
-        //     const dislike = document.getElementById("post-dislike");
-        //     like.classList.remove("like");
-        //     dislike.classList.remove("dislike");
-        //          for(let i = 0; i < doc.data().likes.length; i++){
-        //               if(doc.data().likes[i].useId === currentUser.uid && 
-        //               doc.data().likes[i].likes === "yes"){
-        //                 like.classList.add("like");
-        //                 dislike.classList.remove("dislike");
-        //               } else if(doc.data().likes[i].useId === currentUser.uid && 
-        //               doc.data().likes[i].likes === "no"){
-        //                   like.classList.remove("like");
-        //                   dislike.classList.add("dislike");
-        //               }
-        //           };
+        onSnapshot(doc(db, 'posts', `${id}`), (doc) => {
+            setPost(doc.data()); 
+            const like = document.getElementById("post-like");
+            const dislike = document.getElementById("post-dislike");
+            like.classList.remove("like");
+            dislike.classList.remove("dislike");
+                 for(let i = 0; i < doc.data().likes.length; i++){
+                      if(doc.data().likes[i].useId === currentUser.uid && 
+                      doc.data().likes[i].likes === "yes"){
+                        like.classList.add("like");
+                        dislike.classList.remove("dislike");
+                      } else if(doc.data().likes[i].useId === currentUser.uid && 
+                      doc.data().likes[i].likes === "no"){
+                          like.classList.remove("like");
+                          dislike.classList.add("dislike");
+                      }
+                  };
 
-        // });
-
-        // return() => {
-        //     sub();
-        // };
+        });
     };
 
     const dislike = async (id, userId) => {
         try{
             const docu = await getDoc(doc(db, "posts", id));
-            // console.log(docu.data().likes);
             let obj = docu.data().likes.find((x) => x.useId === userId);
 
-            highLight();
             if(!docu.data().likes.find((x) => x.useId === userId)){
-                // highLight(); 
                 return updateDoc(doc(db, 'posts', id), {
                     likes: arrayUnion({
                         useId: currentUser.uid,
@@ -134,7 +116,6 @@ const PostPage = () => {
                     likeCount: docu.data().likeCount -1
                 });
             } else if(obj && obj.likes === "yes"){
-                // highLight(); 
                 await updateDoc(doc(db, 'posts', id), {
                     likes: arrayRemove(obj),
                     likeCount: docu.data().likeCount -1
@@ -202,7 +183,6 @@ const PostPage = () => {
         return() => {
             unSub();
             sub();   
-            highLight();         
           };
 
     },[]);
