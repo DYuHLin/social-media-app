@@ -42,6 +42,10 @@ const Home = () => {
       setOld(true);
     }
   };
+
+  const backTop = () => {
+    window.scrollTo(0, 0);
+  };
   
   return (
     <div className='home'>
@@ -73,7 +77,7 @@ const Home = () => {
             <Feed new = {news} old = {old} best = {best}/>
           </div>
       </div>
-        
+      <button className='toTop' onClick={backTop}>Back To Top</button>
       </div>
     </div>
   )

@@ -159,7 +159,7 @@ const Feed = (props) => {
                             </div>
                             <div className="commentBtn">
                                 <i className='bx bxs-comment'></i>
-                                <div className="commentHeading">7 Comments</div>
+                                <div className="commentHeading">Comments</div>
                             </div>
                         </div>
                     </div>

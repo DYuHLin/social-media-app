@@ -146,6 +146,17 @@ label{
     cursor: pointer;
 }
 
+.toTop{
+    width: 10%;
+    padding: 12px;
+    border: none;
+    background-color: rgb(24, 94, 224);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 16px;
+}
+
 .registerBtn:hover{
     background-color: rgb(21, 81, 194);
 }
@@ -664,5 +675,11 @@ li:hover{
         font-size: 20px;
     }
 
-    
+    .switchTypes{
+        gap: 14px;
+    }
+
+    button{
+        word-wrap: break-word;
+    }
 }
