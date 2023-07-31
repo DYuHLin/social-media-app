@@ -33,7 +33,7 @@ const Nav = () => {
 
   return (
     <div className='head'>
-        <div className="logo">Lin Share</div>
+        <div className="logos"><img className='userImg' src="./logo.png" alt="logo" /></div>
 
         <div className="search">
             <input onChange={(e) => setSearch(e.target.value)} className='textSearch' type="text" autoComplete='off' placeholder='Search'/>

@@ -50,7 +50,7 @@ const Home = () => {
       <Nav />
       <div className="homeComponent">
         <div className="createPost">
-          <img className='userImg' src={currentUser.photoURL} alt="profile" />
+          <img className='userImg2' src={currentUser.photoURL} alt="profile" />
           <button onClick={() => navigate("/post")} className='postBtn'>Create Post</button>
           </div>
 

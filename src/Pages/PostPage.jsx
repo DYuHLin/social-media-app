@@ -180,8 +180,12 @@ const PostPage = () => {
 
       const deletePost = (delId) => {
         const dltDcu = doc(db, "posts", delId);
+        const dltCom = doc(db, "comments", delId);
+        const dltRep = doc(db, "replies", delId);
 
         deleteDoc(dltDcu);
+        deleteDoc(dltCom);
+        deleteDoc(dltRep);
         navigate("/");
       };
 

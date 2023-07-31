@@ -48,9 +48,7 @@
     margin-bottom: 28px;
 }
 
-.logo{
-    font-size: 28px;
-    font-weight: 500;
+.logos{
     padding-left: 12px;
     display: flex;
 }
@@ -68,7 +66,7 @@
 }
 
 .textSearch{
-    width: 40%;
+    width: 80%;
     display: flex;
     justify-content: center;
 }
@@ -78,6 +76,12 @@
 }
 
 .userImg{
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+
+.userImg2{
     border-radius: 50%;
     width: 60px;
     height: 60px;
@@ -98,6 +102,7 @@
     gap: 16px;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 .title{
@@ -295,17 +300,24 @@ label{
 
 .postImg{
     display: flex;
-    align-items: center;
-    justify-content: center;
     width: 100%;
-    height: 600px;
+    height: 100%;
 }
 
 .postLinked{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     width: 100%;
     gap: 22px;
+}
+
+.wLink{
+    width: 50%;
+    display: flex;
+}
+
+.actualLink{
+    word-wrap: break-word;
 }
 
 .linkBox{
@@ -361,7 +373,7 @@ a{
 
 .postImage{
     display: flex;
-    width: 100%;
+    max-width: 100%;
     height: 100%;
 }
 
@@ -549,7 +561,7 @@ li:hover{
     background-color: white;
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: .5rem;
-    min-width: 100%;
+    max-width: 100%;
 }
 
 .comment__card h3, .comment__card p{
@@ -610,4 +622,47 @@ li:hover{
 
 .deleteWindow{
     color: red;
+}
+
+.logoContainer{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo{
+    width: 80px;
+    height: 80px;
+}
+
+.logo2{
+    width: 60px;
+    height: 60px;
+}
+
+@media (max-width: 500px){
+    .userImg2{
+        display: none;
+    }
+
+    .logos{
+        display: none;
+    }
+
+    .search{
+        padding-left: 22px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .textSearch{
+        width: 100%;
+    }
+
+    .postText{
+        font-size: 20px;
+    }
+
+    
 }

@@ -140,7 +140,7 @@ const Feed = (props) => {
                                 </div> } 
                                 {obj.links !== "" && <div className="postLinked">
                                     <div className="wLink">
-                                        <a href={obj.links}>{obj.links}</a>
+                                        <a className='actualLink' href={obj.links}>{obj.title}</a>
                                     </div>
                                     <a href={obj.links}>
                                         <div className="linkBox">

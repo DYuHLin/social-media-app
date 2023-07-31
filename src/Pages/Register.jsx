@@ -53,6 +53,9 @@ const Register = () => {
   return (
     <div className='register'>
       <div className="registerContainer">
+      <div className="logoContainer">
+          <img className='logo' src="./logo.png" alt="logo" />
+        </div>
         <div className="title">Register</div>
         <form onSubmit={handleSubmit} className='registerForm'>
         <input type='text' autoComplete='off' placeholder='Username'/>

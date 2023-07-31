@@ -22,6 +22,10 @@ const Login = () => {
   return (
     <div className='login'>
       <div className="registerContainer">
+        <div className="logoContainer">
+          <img className='logo' src="./logo.png" alt="logo" />
+        </div>
+        
         <div className="title">Login</div>
         <form onSubmit={loginFunction} className='registerForm'>
             <input type='email' autoComplete='off' placeholder='email'/>
